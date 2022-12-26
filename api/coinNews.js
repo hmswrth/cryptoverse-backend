@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();
-
-const COINRANKING_URL = process.env.COINRANKAPI_URL;
-
 const { createProxyMiddleware } = require("http-proxy-middleware");
+
+
+const COINNEWS_URL = process.env.BINGNEWS_URL;
 
 router.use(
   "/",
   createProxyMiddleware({
-    target: COINRANKING_URL,
+    target: COINNEWS_URL,
     changeOrigin: true,
     pathRewrite: {
-      [`^/coin_ranking`]: "",
+      [`^/coin_news`]: "",
     },
   })
 );

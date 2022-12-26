@@ -3,12 +3,10 @@ const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 const info = require("./api/info");
+const coinNews = require("./api/coinNews");
 const coinRank = require("./api/coinRank");
 
 const PORT = process.env.PORT || "8080";
-// const HOST = "localhost";
-const COINRANKING_URL = process.env.COINRANKAPI_URL;
-const COINNEWS_URL = process.env.BINGNEWS_URL;
 
 // express server
 const app = express();
@@ -41,16 +39,18 @@ app.use("/coin_ranking", coinRank);
 //   })
 // );
 
-app.use(
-  "/coin_news/",
-  createProxyMiddleware({
-    target: COINNEWS_URL,
-    changeOrigin: true,
-    pathRewrite: {
-      [`^/coin_news`]: "",
-    },
-  })
-);
+app.use("/coin_news", coinNews);
+
+// app.use(
+//   "/coin_news/",
+//   createProxyMiddleware({
+//     target: COINNEWS_URL,
+//     changeOrigin: true,
+//     pathRewrite: {
+//       [`^/coin_news`]: "",
+//     },
+//   })
+// );
 
 app.listen(PORT, () => {
   console.log(`Starting Proxy at ${PORT}`);
